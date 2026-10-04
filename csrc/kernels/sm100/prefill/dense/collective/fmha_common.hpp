@@ -68,6 +68,9 @@ CUTE_DEVICE T warp_uniform(T a) {
   return __shfl_sync(0xffffffff, a, 0);
 }
 
+// CUTLASS 4.8 made SM100_MMA_F8F6F4_SS a class template, so this fp8 overload no longer parses. It is dead code:
+// fmha_cutlass_fwd_sm100.cu instantiates bf16 only (fp8 is never dispatched).
+#if 0
 template <class a_type, class b_type, class c_type,
           int M, int N, UMMA::Major a_major, UMMA::Major b_major,
           UMMA::ScaleIn a_neg, UMMA::ScaleIn b_neg, class... TAs, class... TMs>
@@ -90,6 +93,7 @@ to_tiled_mma_sm100_ts(
                                 a_neg, b_neg, UMMA::Saturate::False>>,
     TAs...>, TMs...>{};
 }
+#endif
 
 template <class a_type, class b_type, class c_type,
           int M, int N, UMMA::Major a_major, UMMA::Major b_major,
